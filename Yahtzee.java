@@ -30,6 +30,20 @@ public class Yahtzee extends GraphicsProgram implements YahtzeeConstants {
 		display = new YahtzeeDisplay(getGCanvas(), playerNames);
 		playGame();
 	}
+	
+	private void playGame() {
+		/* You fill this in */
+		for(int round=0; round< N_SCORING_CATEGORIES;round++){
+			for(int playerNumber=1;playerNumber<=nPlayers;playerNumber++){
+				
+				firstRoll(playerNumber);
+				nextTwoRoll(playerNumber);
+				selectedCategory(playerNumber);
+				
+			}
+		}
+		
+	}
 	private void firstRoll(int playerNumber){
 		for(int chooseDiceNumber=0; chooseDiceNumber<N_DICE;chooseDiceNumber++){
 			int rolldice = rgen.nextInt(1,6);
@@ -58,20 +72,7 @@ public class Yahtzee extends GraphicsProgram implements YahtzeeConstants {
 				display.displayDice(dieRollResult);
 		}
 	}
-	private void playGame() {
-		/* You fill this in */
-		for(int round=0; round< N_SCORING_CATEGORIES;round++){
-			for(int playerNumber=1;playerNumber<=nPlayers;playerNumber++){
-				
-				firstRoll(playerNumber);
-				display.waitForPlayerToSelectDice();
-				nextTwoRoll(playerNumber);
-				selectedCategory(playerNumber);
-				
-			}
-		}
-		
-	}
+	
 	
 	
 	private void selectedCategory(int PlayerNumber){
@@ -90,7 +91,7 @@ public class Yahtzee extends GraphicsProgram implements YahtzeeConstants {
 	
 	private void categoryResultCalculating(int PlayerNumber){
 		int categoryScore;
-		selectedCategory[PlayerNumber][category] = 1;
+		//selectedCategory[PlayerNumber][category] = 1;
 		
 		if(checkCategory(dieRollResult,category) == true){
 			setCategoryScore(PlayerNumber, category);
