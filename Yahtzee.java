@@ -77,31 +77,45 @@ public class Yahtzee extends GraphicsProgram implements YahtzeeConstants {
 	
 	private void selectedCategory(int PlayerNumber){
 		while(true){
+			System.out.println("starting");
 			display.printMessage("Slect the category Thanks You");
 		category = display.waitForPlayerToSelectCategory();
-		if(selectedCategory[PlayerNumber][category] == 0){
+	//	System.out.println(PlayerNumber);
+	//	System.out.println(category);
+
+		int zee = selectedCategory[PlayerNumber][category-1];
+		
+		System.out.println(PlayerNumber);
+		if(zee == 0){
+			System.out.println(category);
 			categoryResultCalculating(PlayerNumber);
 			break;
 		}
-	
 		
+		else{
+				System.out.println("error");
+		}
+	
+		System.out.println("ending");
 		}	
 		
 	}
 	
 	private void categoryResultCalculating(int PlayerNumber){
 		int categoryScore;
-		//selectedCategory[PlayerNumber][category] = 1;
 		
 		if(checkCategory(dieRollResult,category) == true){
+			
 			setCategoryScore(PlayerNumber, category);
-			categoryScore = categoryScores[PlayerNumber][category];
-			display.updateScorecard(category, PlayerNumber,categoryScore);
+			categoryScore = categoryScores[PlayerNumber][category-1];
+			System.out.println("zeeshan");
+			System.out.println(categoryScore);
+			display.updateScorecard(category, PlayerNumber,categoryScore);			
 			
 		}
 		
 		else {
-			categoryScores[PlayerNumber][category] = 0;
+			categoryScores[PlayerNumber][category-1] = 0;
 			display.updateScorecard(category, PlayerNumber, 0);
 
 	}
@@ -111,7 +125,11 @@ public class Yahtzee extends GraphicsProgram implements YahtzeeConstants {
 		int score = 0; 
 		if(category >= ONES && category <= SIXES) {
 			for(int i = 0; i < N_DICE; i++) {
+				//System.out.println("zeeshan");
 				 if(dieRollResult[i] == category) {
+					//System.out.println("zeeshan");
+					 //System.out.println(category);
+					 
 					 score += category;
 				 }
 			 }
@@ -133,7 +151,7 @@ public class Yahtzee extends GraphicsProgram implements YahtzeeConstants {
 		else if(category == YAHTZEE) {
 			score = 50;
 		}
-		categoryScores[playerNumber][category] = score;
+		categoryScores[playerNumber][category-1] = score;
 	}
 
 	//this function given in assignment document but is write in our own code.
@@ -221,8 +239,8 @@ public class Yahtzee extends GraphicsProgram implements YahtzeeConstants {
 /* Private instance variables */
 	private int[] dieRollResult = new int[N_DICE];
 	private int category;
-	private int[][] selectedCategory;
-	private int[][] categoryScores;
+	private int[][] selectedCategory = new int[4][13];
+	private int[][] categoryScores = new int[4][13];
 	private int nPlayers;
 	private String[] playerNames;
 	private YahtzeeDisplay display;
