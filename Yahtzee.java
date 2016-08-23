@@ -29,6 +29,7 @@ public class Yahtzee extends GraphicsProgram implements YahtzeeConstants {
 		}
 		display = new YahtzeeDisplay(getGCanvas(), playerNames);
 		playGame();
+		whoIsWinner();
 	}
 	
 	private void playGame() {
@@ -42,6 +43,7 @@ public class Yahtzee extends GraphicsProgram implements YahtzeeConstants {
 				
 			}
 		}
+		upperBonusScore();
 		
 	}
 	private void firstRoll(int playerNumber){
@@ -80,7 +82,6 @@ public class Yahtzee extends GraphicsProgram implements YahtzeeConstants {
 			display.printMessage("Slect the category ");
 		category = display.waitForPlayerToSelectCategory();
 		if(selectedCategory[PlayerNumber-1][category] == 0){
-			//System.out.println(category);
 			categoryResultCalculating(PlayerNumber);
 			break;
 		}
@@ -239,6 +240,30 @@ public class Yahtzee extends GraphicsProgram implements YahtzeeConstants {
 		categoryScores[playerNumber-1][UPPER_SCORE] = upperScore; 
 		categoryScores[playerNumber-1][LOWER_SCORE] = lowerScore;
 		categoryScores[playerNumber-1][TOTAL-1] = totalScore; 
+	}
+	
+	private void whoIsWinner() {
+		int winningScore = 0;
+		int winningPlayerNumber = 0;
+		for(int PlayerNumber = 1; PlayerNumber<=nPlayers; PlayerNumber++) {
+			int x = categoryScores[PlayerNumber-1][TOTAL-1];
+			if( x > winningScore) {
+				winningScore = x;
+				winningPlayerNumber = PlayerNumber - 1;
+			}
+		}
+		display.printMessage("Congratulations " + playerNames[winningPlayerNumber] + " you won this game and your total score is: " + winningScore);
+	}
+	
+	private void upperBonusScore() {
+		for(int PlayerNumber = 1; PlayerNumber <= nPlayers; PlayerNumber++) {
+			if(categoryScores[PlayerNumber][UPPER_SCORE] >= 63) {
+				categoryScores[PlayerNumber][UPPER_BONUS] = 35;
+			}
+			display.updateScorecard(UPPER_BONUS, PlayerNumber, categoryScores[PlayerNumber-1][UPPER_BONUS]);
+			categoryScores[PlayerNumber-1][TOTAL-1] = categoryScores[PlayerNumber][TOTAL-1] + categoryScores[PlayerNumber][UPPER_BONUS];
+			display.updateScorecard(TOTAL, PlayerNumber, categoryScores[PlayerNumber-1][TOTAL-1]);
+		}
 	}
 	
 /* Private instance variables */
